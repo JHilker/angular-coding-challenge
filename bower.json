@@ -1,5 +1,5 @@
 {
-  "name": "angular-coding-challange",
+  "name": "angular-coding-challenge",
   "version": "0.0.0",
   "dependencies": {
     "angular": ">=1.2.*",

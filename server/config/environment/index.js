@@ -26,7 +26,7 @@ var all = {
 
   // Secret for session, you will want to change this and make it an environment variable
   secrets: {
-    session: 'angular-coding-challange-secret'
+    session: 'angular-coding-challenge-secret'
   },
 
   // List of user roles

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('angularCodingChallangeApp')
+angular.module('angularCodingChallengeApp')
   .controller('NavbarCtrl', function ($scope, $location) {
     $scope.menu = [{
       'title': 'Home',

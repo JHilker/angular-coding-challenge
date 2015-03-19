@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('angularCodingChallangeApp')
+angular.module('angularCodingChallengeApp')
   .factory('Modal', function ($rootScope, $modal) {
     /**
      * Opens a modal

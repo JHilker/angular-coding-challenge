@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('angularCodingChallangeApp')
+angular.module('angularCodingChallengeApp')
   .controller('MainCtrl', function ($scope, $http) {
     $scope.awesomeThings = [];
 

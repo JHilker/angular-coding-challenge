@@ -5,7 +5,7 @@
 module.exports = {
   // MongoDB connection options
   mongo: {
-    uri: 'mongodb://localhost/angularcodingchallange-dev'
+    uri: 'mongodb://localhost/angularcodingchallenge-dev'
   },
 
   seedDB: true

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('angularCodingChallangeApp')
+angular.module('angularCodingChallengeApp')
   .config(function ($stateProvider) {
     $stateProvider
       .state('main', {
