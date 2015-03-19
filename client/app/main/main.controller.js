@@ -2,21 +2,21 @@
 
 angular.module('angularCodingChallengeApp')
   .controller('MainCtrl', function ($scope, $http) {
-    $scope.awesomeThings = [];
+    $scope.users = [];
 
-    $http.get('/api/things').success(function(awesomeThings) {
-      $scope.awesomeThings = awesomeThings;
+    $http.get('/api/users').success(function(users) {
+      $scope.users = users;
     });
 
-    $scope.addThing = function() {
-      if($scope.newThing === '') {
+    $scope.addUser = function() {
+      if($scope.newUser === '') {
         return;
       }
-      $http.post('/api/things', { name: $scope.newThing });
-      $scope.newThing = '';
+      $http.post('/api/users', { name: $scope.newUser });
+      $scope.newUser = '';
     };
 
-    $scope.deleteThing = function(thing) {
-      $http.delete('/api/things/' + thing._id);
+    $scope.deleteUser = function(user) {
+      $http.delete('/api/users/' + user._id);
     };
   });
