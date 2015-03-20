@@ -279,4 +279,28 @@ describe('Controller: MainCtrl', function () {
       scope.saveUser(user, mockEvent);
     });
   });
+
+  describe('deleteUser', function () {
+    var mockEvent;
+
+    beforeEach(function () {
+      mockEvent = { stopImmediatePropagation: function () {} };
+    });
+
+    afterEach(function () {
+      $httpBackend.verifyNoOutstandingRequest();
+      $httpBackend.verifyNoOutstandingExpectation();
+    });
+
+    it('should not make a request if the user has no id', function () {
+      scope.deleteUser({}, mockEvent);
+    });
+
+    it('should delete a user if it has an _id', function () {
+      var user = { _id: '12345' };
+      $httpBackend.expectDELETE('/api/users/12345').respond(200, '');
+
+      scope.deleteUser(user, mockEvent);
+    });
+  });
 });

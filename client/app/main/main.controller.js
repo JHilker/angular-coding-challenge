@@ -121,7 +121,11 @@ angular.module('angularCodingChallengeApp')
       $event.stopImmediatePropagation();
     };
 
-    $scope.deleteUser = function (user) {
-      $http.delete('/api/users/' + user._id);
+    $scope.deleteUser = function (user, $event) {
+      if (user._id) {
+        $http.delete('/api/users/' + user._id);
+        $scope.users.splice($scope.users.indexOf(user), 1);
+      }
+      $event.stopImmediatePropagation();
     };
   });

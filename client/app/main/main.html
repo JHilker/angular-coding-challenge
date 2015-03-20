@@ -129,6 +129,10 @@
               <button type="submit" ng-hide="user.editing" ng-click="editUser(user)" class="btn btn-default">
                 <i class="fa fa-pencil"></i>
               </button>
+              <button type="submit" ng-show="user.editing" ng-click="deleteUser(user, $event)" class="btn btn-default"
+                      ng-if="user._id">
+                <i class="fa fa-trash"></i>
+              </button>
               <button type="submit" ng-show="user.editing" ng-click="cancel(user, $event)" class="btn btn-default undo">
                 <i class="fa fa-undo"></i>
               </button>
