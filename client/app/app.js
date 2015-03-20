@@ -20,4 +20,4 @@ window.onbeforeunload = function() {
   if (_.some(angular.element('.container').scope().users, 'editing')) {
     return 'Are you sure you want to navigate away? You have unsaved changes';
   }
-}
+};

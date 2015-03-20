@@ -8,9 +8,11 @@ describe('Controller: MainCtrl', function () {
   var MainCtrl;
   var scope;
   var $httpBackend;
+  var mockEvent;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function (_$httpBackend_, $controller, $rootScope) {
+    mockEvent = { stopImmediatePropagation: function () {} };
     $httpBackend = _$httpBackend_;
     $httpBackend.expectGET('/api/users')
       .respond([{ firstName: 'Jacob' }, { firstName: 'Test' }]);
@@ -212,6 +214,24 @@ describe('Controller: MainCtrl', function () {
     });
   });
 
+  describe('cancel', function () {
+    it('removes an unpersisted user', function () {
+      scope.users = [{}];
+      expect(scope.users.length).toBe(1);
+
+      scope.cancel(scope.users[0], mockEvent);
+      expect(scope.users.length).toBe(0);
+    });
+
+    it('reverts a persisted user', function () {
+      scope.users = [{ _id: 1234, firstName: 'Joe' }];
+      scope.cachedUsers = [{ _id: 1234, firstName: 'Jacob' }];
+
+      scope.cancel(scope.users[0], mockEvent);
+      expect(scope.users[0].firstName).toBe('Jacob');
+    });
+  });
+
   describe('userValid', function () {
     describe('uniqueEmail', function () {
       it('should return false when the email is non unique', function () {
@@ -242,12 +262,6 @@ describe('Controller: MainCtrl', function () {
   });
 
   describe('saveUser', function () {
-    var mockEvent;
-
-    beforeEach(function () {
-      mockEvent = { stopImmediatePropagation: function () {} };
-    });
-
     afterEach(function () {
       $httpBackend.verifyNoOutstandingRequest();
       $httpBackend.verifyNoOutstandingExpectation();
@@ -281,12 +295,6 @@ describe('Controller: MainCtrl', function () {
   });
 
   describe('deleteUser', function () {
-    var mockEvent;
-
-    beforeEach(function () {
-      mockEvent = { stopImmediatePropagation: function () {} };
-    });
-
     afterEach(function () {
       $httpBackend.verifyNoOutstandingRequest();
       $httpBackend.verifyNoOutstandingExpectation();

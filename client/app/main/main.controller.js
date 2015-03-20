@@ -80,7 +80,7 @@ angular.module('angularCodingChallengeApp')
 
     $scope.uniqueEmail = function (user) {
       return _.filter($scope.users, 'email', user.email).length <= 1;
-    }
+    };
 
     $scope.addUserRow = function () {
       $scope.users.push({ editing: true, newUser: true });
