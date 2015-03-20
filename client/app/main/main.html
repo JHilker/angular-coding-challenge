@@ -82,7 +82,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="user in visibleUsers()">
+          <tr ng-repeat="user in visibleUsers()"  ng-click="editUser(user)">
             <td>
               <span ng-hide="user.editing">{{user.lastName}}</span>
               <input type="text" ng-show="user.editing" ng-model="user.lastName" class="form-control"
@@ -127,10 +127,10 @@
               <button type="submit" ng-hide="user.editing" ng-click="editUser(user)" class="btn btn-default">
                 <i class="fa fa-pencil"></i>
               </button>
-              <button type="submit" ng-show="user.editing" ng-click="cancel(user)" class="btn btn-default undo">
+              <button type="submit" ng-show="user.editing" ng-click="cancel(user, $event)" class="btn btn-default undo">
                 <i class="fa fa-undo"></i>
               </button>
-              <button type="submit" ng-show="user.editing" ng-click="saveUser(user)" class="btn btn-default save">
+              <button type="submit" ng-show="user.editing" ng-click="saveUser(user, $event)" class="btn btn-default save">
                 <i class="fa fa-check"></i>
               </button>
             </td>

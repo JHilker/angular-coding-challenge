@@ -79,21 +79,24 @@ angular.module('angularCodingChallengeApp')
     };
 
     $scope.editUser = function (user) {
-      $scope.cachedUsers[$scope.users.indexOf(user)] = angular.copy(user);
-      user.editing = true;
+      if (!user.editing) {
+        $scope.cachedUsers[$scope.users.indexOf(user)] = angular.copy(user);
+        user.editing = true;
+      }
     };
 
-    $scope.cancel = function (user) {
+    $scope.cancel = function (user, $event) {
       var index = $scope.users.indexOf(user);
       if (user._id) {
         $scope.users[index] = $scope.cachedUsers[index];
       } else {
         $scope.users.splice(index, 1);
       }
+      $event.stopImmediatePropagation();
     };
 
-    $scope.saveUser = function (user) {
-      if (user.editing !== false) {
+    $scope.saveUser = function (user, $event) {
+      if (user.editing) {
         user.lastEdited = moment();
         if (user._id) {
           $http.put('/api/users/' + user._id, user);
@@ -102,9 +105,9 @@ angular.module('angularCodingChallengeApp')
           $http.post('/api/users', user);
           delete user.newUser;
         }
-
         user.editing = false;
       }
+      $event.stopImmediatePropagation();
     };
 
     $scope.deleteUser = function (user) {
