@@ -6,6 +6,7 @@
       <div>
         <input type="text" class="form-control search" placeholder="Search" ng-model="search" ng-change="search()"/>
       </div>
+
       <div class="actionsRow">
         <span class="pageSpan">
           <span ng-if="currentPage > 0" ng-click="previousPage()">
@@ -23,16 +24,60 @@
           <span><i class="fa fa-plus"></i> Add User</span>
         </button>
       </div>
+
       <table class="table table-striped">
         <thead>
           <tr>
-            <th ng-click="sortUsers('lastName')">Last Name</th>
-            <th ng-click="sortUsers('firstName')">First Name</th>
-            <th ng-click="sortUsers('age')" class="ageColumn">Age</th>
-            <th>Email</th>
-            <th>Created on</th>
-            <th>Last edited</th>
-            <th>Active</th>
+            <!-- This should be dry'ed up a bit -->
+            <th class="sortableColumn" ng-click="sortUsers('lastName')">
+              Last Name
+              <span ng-if="sortField === 'lastName'">
+                <i class="fa fa-caret-up" ng-show="sortOrder"></i>
+                <i class="fa fa-caret-down" ng-hide="sortOrder"></i>
+              </span>
+            </th>
+            <th class="sortableColumn" ng-click="sortUsers('firstName')">
+              First Name
+              <span ng-if="sortField === 'firstName'">
+                <i class="fa fa-caret-up" ng-show="sortOrder"></i>
+                <i class="fa fa-caret-down" ng-hide="sortOrder"></i>
+              </span>
+            </th>
+            <th class="sortableColumn" ng-click="sortUsers('age')" class="ageColumn">
+              Age
+              <span ng-if="sortField === 'age'">
+                <i class="fa fa-caret-up" ng-show="sortOrder"></i>
+                <i class="fa fa-caret-down" ng-hide="sortOrder"></i>
+              </span>
+            </th>
+            <th class="sortableColumn" ng-click="sortUsers('email')">
+              Email
+              <span ng-if="sortField === 'email'">
+                <i class="fa fa-caret-up" ng-show="sortOrder"></i>
+                <i class="fa fa-caret-down" ng-hide="sortOrder"></i>
+              </span>
+            </th>
+            <th class="sortableColumn" ng-click="sortUsers('createdOn')">
+              Created on
+              <span ng-if="sortField === 'createdOn'">
+                <i class="fa fa-caret-up" ng-show="sortOrder"></i>
+                <i class="fa fa-caret-down" ng-hide="sortOrder"></i>
+              </span>
+            </th>
+            <th class="sortableColumn" ng-click="sortUsers('lastEdited')">
+              Last edited
+              <span ng-if="sortField === 'lastEdited'">
+                <i class="fa fa-caret-up" ng-show="sortOrder"></i>
+                <i class="fa fa-caret-down" ng-hide="sortOrder"></i>
+              </span>
+            </th>
+            <th class="sortableColumn" ng-click="sortUsers('active')">
+              Active
+              <span ng-if="sortField === 'active'">
+                <i class="fa fa-caret-up" ng-show="sortOrder"></i>
+                <i class="fa fa-caret-down" ng-hide="sortOrder"></i>
+              </span>
+            </th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -98,9 +143,9 @@
 
 <footer class="footer">
   <div class="container">
-      <p>Angular Fullstack v2.0.13 |
-        <a href="https://twitter.com/tyhenkel">@tyhenkel</a> |
-         <a href="https://github.com/DaftMonk/generator-angular-fullstack/issues?state=open">Issues</a>
-      </p>
+    <p>Angular Fullstack v2.0.13 |
+      <a href="https://twitter.com/tyhenkel">@tyhenkel</a> |
+       <a href="https://github.com/DaftMonk/generator-angular-fullstack/issues?state=open">Issues</a>
+    </p>
   </div>
 </footer>
