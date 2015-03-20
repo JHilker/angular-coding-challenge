@@ -19,7 +19,7 @@
           </span>
         </span>
 
-        <button class="addUserButton btn btn-default" type="submit" data-ng-click="addUserRow()">
+        <button class="addUserButton btn btn-default" type="submit" ng-click="addUserRow()">
           <span><i class="fa fa-plus"></i> Add User</span>
         </button>
       </div>
@@ -44,19 +44,19 @@
                      placeholder="Enter a last name" ng-required />
             </td>
             <td>
-              <span data-ng-hide="user.editing">{{user.firstName}}</span>
-              <input type="text" data-ng-show="user.editing" data-ng-model="user.firstName" class="form-control"
-                     placeholder="Enter a first name" data-ng-required />
+              <span ng-hide="user.editing">{{user.firstName}}</span>
+              <input type="text" ng-show="user.editing" ng-model="user.firstName" class="form-control"
+                     placeholder="Enter a first name" ng-required />
             </td>
             <td>
-              <span data-ng-hide="user.editing">{{user.age}}</span>
-              <input type="text" data-ng-show="user.editing" data-ng-model="user.age" class="form-control"
+              <span ng-hide="user.editing">{{user.age}}</span>
+              <input type="text" ng-show="user.editing" ng-model="user.age" class="form-control"
                      placeholder="Age" />
             </td>
             <td>
-              <span data-ng-hide="user.editing">{{user.email}}</span>
-              <input type="text" data-ng-show="user.editing" data-ng-model="user.email" class="form-control"
-                     placeholder="email@yourdomain.com" data-ng-required />
+              <span ng-hide="user.editing">{{user.email}}</span>
+              <input type="text" ng-show="user.editing" ng-model="user.email" class="form-control"
+                     placeholder="email@yourdomain.com" ng-required />
             </td>
             <td>
               <div class="userDate">
@@ -75,17 +75,17 @@
               </div>
             </td>
             <td>
-              <i class="fa fa-check" ng-if="user.active" data-ng-hide="user.editing"></i>
-              <input type="checkbox" data-ng-show="user.editing" data-ng-model="user.active" />
+              <i class="fa fa-check" ng-if="user.active" ng-hide="user.editing"></i>
+              <input type="checkbox" ng-show="user.editing" ng-model="user.active" />
             </td>
             <td>
               <button type="submit" ng-hide="user.editing" ng-click="editUser(user)" class="btn btn-default">
                 <i class="fa fa-pencil"></i>
               </button>
-              <button type="submit" data-ng-show="user.editing" data-ng-click="cancel(user)" class="btn btn-default undo">
+              <button type="submit" ng-show="user.editing" ng-click="cancel(user)" class="btn btn-default undo">
                 <i class="fa fa-undo"></i>
               </button>
-              <button type="submit" data-ng-show="user.editing" data-ng-click="saveUser(user)" class="btn btn-default save">
+              <button type="submit" ng-show="user.editing" ng-click="saveUser(user)" class="btn btn-default save">
                 <i class="fa fa-check"></i>
               </button>
             </td>
