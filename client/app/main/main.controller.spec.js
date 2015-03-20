@@ -190,7 +190,7 @@ describe('Controller: MainCtrl', function () {
         expect(scope.visiblePageRange()).toBe('21-22');
 
         scope.currentPage = 0;
-        scope.search = 'x'
+        scope.search = 'x';
         expect(scope.visiblePageRange()).toBe('0-0');
       });
     });
