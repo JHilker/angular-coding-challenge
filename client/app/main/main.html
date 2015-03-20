@@ -4,7 +4,7 @@
       <h1 class="page-header">User list</h1>
 
       <div>
-        <input type="text" class="form-control search" placeholder="Search" ng-model="search" />
+        <input type="text" class="form-control search" placeholder="Search" ng-model="search" ng-change="filtering()"/>
       </div>
 
       <div class="actionsRow">
@@ -13,8 +13,8 @@
             <a><i class="fa fa-angle-double-left"></i> Previous {{perPage}} users</a>
             <span>| </span>
           </span>
-          <span>Showing {{visiblePageRange()}} of {{users.length}} users</span>
-          <span ng-if="users.length > currentPage * perPage + 10" ng-click="nextPage()">
+          <span>Showing {{visiblePageRange()}} of {{sortedUsers().length}} users</span>
+          <span ng-if="sortedUsers().length > currentPage * perPage + 10" ng-click="nextPage()">
             <span>| </span>
             <a>Next {{perPage}} users <i class="fa fa-angle-double-right"></i></a>
           </span>

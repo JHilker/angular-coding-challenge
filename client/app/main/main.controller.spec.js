@@ -49,6 +49,23 @@ describe('Controller: MainCtrl', function () {
       expect(scope.search).toBe('');
     });
 
+    it('should return to the first page if the page no longer exists', function () {
+      scope.users = _.times(22, function () {
+        return { firstName: 'testUser' };
+      });
+      scope.currentPage = 2;
+
+      scope.search = 'testUser';
+      scope.filtering();
+
+      expect(scope.currentPage).toBe(2);
+
+      scope.search = 'x';
+      scope.filtering();
+
+      expect(scope.currentPage).toBe(0);
+    });
+
     describe('filteredUsers', function () {
       it('never filters out new users', function () {
         scope.addUserRow();
@@ -141,6 +158,7 @@ describe('Controller: MainCtrl', function () {
         return { firstName: 'testUser' };
       });
     });
+
     it('should have default values for currentPage and perPage', function () {
       expect(scope.currentPage).toBe(0);
       expect(scope.perPage).toBe(10);
@@ -160,5 +178,37 @@ describe('Controller: MainCtrl', function () {
       });
     });
 
+    describe('visiblePageRange', function () {
+      it('should return the proper range', function () {
+        scope.currentPage = 0;
+        expect(scope.visiblePageRange()).toBe('1-10');
+
+        scope.currentPage = 1;
+        expect(scope.visiblePageRange()).toBe('11-20');
+
+        scope.currentPage = 2;
+        expect(scope.visiblePageRange()).toBe('21-22');
+
+        scope.currentPage = 0;
+        scope.search = 'x'
+        expect(scope.visiblePageRange()).toBe('0-0');
+      });
+    });
+
+    describe('page transitions', function () {
+      it('should increment the currentPage when nextPage is called', function () {
+        scope.currentPage = 0;
+        scope.nextPage();
+
+        expect(scope.currentPage).toBe(1);
+      });
+
+      it('should decrement the currentPage when previousPage is called', function () {
+        scope.currentPage = 1;
+        scope.previousPage();
+
+        expect(scope.currentPage).toBe(0);
+      });
+    });
   });
 });

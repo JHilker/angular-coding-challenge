@@ -18,6 +18,12 @@ angular.module('angularCodingChallengeApp')
       $scope.users = users;
     });
 
+    $scope.filtering = function () {
+      if ($scope.filteredUsers().length < ($scope.currentPage * $scope.perPage + 1)) {
+        $scope.currentPage = 0;
+      }
+    };
+
     $scope.filteredUsers = function () {
       var filter = $scope.search.toLowerCase();
       return _.filter($scope.users, function (user) {
@@ -51,9 +57,13 @@ angular.module('angularCodingChallengeApp')
     };
 
     $scope.visiblePageRange = function () {
-      var firstUser = $scope.currentPage * $scope.perPage + 1;
-      var lastUser = (firstUser + 9) > $scope.users.length ? $scope.users.length : (firstUser + 9);
-      return firstUser + '-' + lastUser;
+      if ($scope.sortedUsers().length > 0) {
+        var firstUser = $scope.currentPage * $scope.perPage + 1;
+        var lastUser = (firstUser + 9) > $scope.sortedUsers().length ? $scope.sortedUsers().length : (firstUser + 9);
+        return firstUser + '-' + lastUser;
+      } else {
+        return '0-0';
+      }
     };
 
     $scope.nextPage = function () {
