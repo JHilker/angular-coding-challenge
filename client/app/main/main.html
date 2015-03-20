@@ -4,7 +4,7 @@
       <h1 class="page-header">User list</h1>
 
       <div>
-        <input type="text" class="form-control search" placeholder="Search" ng-model="search" ng-change="search()"/>
+        <input type="text" class="form-control search" placeholder="Search" ng-model="search" />
       </div>
 
       <div class="actionsRow">
@@ -43,7 +43,7 @@
                 <i class="fa fa-caret-down" ng-hide="sortOrder"></i>
               </span>
             </th>
-            <th class="sortableColumn" ng-click="sortUsers('age')" class="ageColumn">
+            <th class="sortableColumn ageColumn" ng-click="sortUsers('age')">
               Age
               <span ng-if="sortField === 'age'">
                 <i class="fa fa-caret-up" ng-show="sortOrder"></i>

@@ -12,10 +12,24 @@ angular.module('angularCodingChallengeApp')
     $scope.sortOrder = true;
     $scope.sortField = 'lastName';
 
+    $scope.search = '';
 
     $http.get('/api/users').success(function (users) {
       $scope.users = users;
     });
+
+    $scope.filteredUsers = function () {
+      var filter = $scope.search.toLowerCase();
+      return _.filter($scope.users, function (user) {
+        return ((user.newUser) ||
+                (user.lastName && user.lastName.toLowerCase().search(filter) >= 0) ||
+                (user.firstName && user.firstName.toLowerCase().search(filter) >= 0) ||
+                (user.age && user.age.toString().search(filter) >= 0) ||
+                (user.email && user.email.toLowerCase().search(filter) >= 0) ||
+                (moment(user.createdOn).format('MM/DD/YYYY hh:mm:ss A').search(filter) >= 0) ||
+                (moment(user.lastEdited).format('MM/DD/YYYY hh:mm:ss A').search(filter) >= 0));
+      });
+    };
 
     $scope.sortUsers = function (field) {
       if ($scope.sortField === field) {
@@ -27,7 +41,8 @@ angular.module('angularCodingChallengeApp')
     };
 
     $scope.sortedUsers = function () {
-      return _.sortByOrder($scope.users, $scope.sortField, $scope.sortOrder);
+      // Always put new entries at the top
+      return _.sortByOrder($scope.filteredUsers(), ['newUser', $scope.sortField], [true, $scope.sortOrder]);
     };
 
     $scope.visibleUsers = function () {
@@ -50,7 +65,7 @@ angular.module('angularCodingChallengeApp')
     };
 
     $scope.addUserRow = function () {
-      $scope.users.unshift({ editing: true });
+      $scope.users.push({ editing: true, newUser: true });
     };
 
     $scope.editUser = function (user) {
@@ -75,6 +90,7 @@ angular.module('angularCodingChallengeApp')
         } else {
           user.createdOn = user.lastEdited;
           $http.post('/api/users', user);
+          delete user.newUser;
         }
 
         user.editing = false;

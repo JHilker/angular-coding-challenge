@@ -26,6 +26,54 @@ describe('Controller: MainCtrl', function () {
     expect(scope.users.length).toBe(2);
   });
 
+  describe('filtering', function () {
+    beforeEach(function () {
+      scope.users = [{
+        firstName: 'Jacob',
+        lastName: 'Hilker',
+        age: 24,
+        email: 'hilker.j@gmail.com',
+        createdOn: Date.parse('03/19/2015'),
+        lastEdited: Date.parse('03/19/2015')
+      }, {
+        firstName: 'Test',
+        lastName: 'Person',
+        age: 50,
+        email: 'test@example.com',
+        createdOn: Date.parse('01/01/2015'),
+        lastEdited: Date.parse('02/01/2015')
+      }];
+    });
+
+    it('should have default value for search', function () {
+      expect(scope.search).toBe('');
+    });
+
+    describe('filteredUsers', function () {
+      it('never filters out new users', function () {
+        scope.addUserRow();
+        scope.search = 'zzzzz';
+        expect(scope.filteredUsers().length).toBe(1);
+        expect(scope.filteredUsers()[0].newUser).toBe(true);
+      });
+
+      _.forEach({
+        'firstName': 'test',
+        'lastName': 'son',
+        'age': '50',
+        'email': '@example',
+        'createdOn': '01/',
+        'lastEdited': '02/'
+      }, function(search, field) {
+        it('filters based on ' + field, function () {
+          scope.search = search;
+          expect(scope.filteredUsers().length).toBe(1);
+          expect(scope.filteredUsers()[0].firstName).toBe('Test');
+        });
+      });
+    });
+  });
+
   describe('sorting', function () {
     it('should have default values for sortOrder and sortField', function () {
       expect(scope.sortOrder).toBe(true);
@@ -72,6 +120,17 @@ describe('Controller: MainCtrl', function () {
         expect(scope.sortedUsers().length).toBe(2);
         expect(scope.sortedUsers()[0].firstName).toBe('Test');
         expect(scope.sortedUsers()[1].firstName).toBe('Jacob');
+      });
+
+      it('should always put new users at the top', function () {
+        scope.users = [{ firstName: 'Jacob' }, { firstName: 'Test' }, { newUser: true }];
+        scope.sortField = 'firstName';
+        scope.sortOrder = true;
+
+        expect(scope.sortedUsers().length).toBe(3);
+        expect(scope.sortedUsers()[0].newUser).toBe(true);
+        expect(scope.sortedUsers()[1].firstName).toBe('Jacob');
+        expect(scope.sortedUsers()[2].firstName).toBe('Test');
       });
     });
   });
