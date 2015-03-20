@@ -74,6 +74,14 @@ angular.module('angularCodingChallengeApp')
       $scope.currentPage -= 1;
     };
 
+    $scope.userValid = function (user) {
+      return user.firstName && user.lastName && user.email && $scope.uniqueEmail(user) ? true : false;
+    };
+
+    $scope.uniqueEmail = function (user) {
+      return _.filter($scope.users, 'email', user.email).length <= 1;
+    }
+
     $scope.addUserRow = function () {
       $scope.users.push({ editing: true, newUser: true });
     };
@@ -96,13 +104,16 @@ angular.module('angularCodingChallengeApp')
     };
 
     $scope.saveUser = function (user, $event) {
-      if (user.editing) {
+      if (user.editing && $scope.userValid(user)) {
         user.lastEdited = moment();
         if (user._id) {
           $http.put('/api/users/' + user._id, user);
         } else {
           user.createdOn = user.lastEdited;
-          $http.post('/api/users', user);
+          $http.post('/api/users', user).success(function (respUser) {
+            var user = _.find($scope.users, 'email', respUser.email);
+            user._id = respUser._id;
+          });
           delete user.newUser;
         }
         user.editing = false;

@@ -100,8 +100,10 @@
             </td>
             <td>
               <span ng-hide="user.editing">{{user.email}}</span>
-              <input type="text" ng-show="user.editing" ng-model="user.email" class="form-control"
-                     placeholder="email@yourdomain.com" ng-required />
+              <div class="form-group" ng-class="{'has-error': !uniqueEmail(user)}" >
+                <input type="text" ng-show="user.editing" ng-model="user.email" class="form-control"
+                     placeholder="email@yourdomain.com" ng-required/>
+              </div>
             </td>
             <td>
               <div class="userDate">

@@ -5,9 +5,9 @@ describe('Controller: MainCtrl', function () {
   // load the controller's module
   beforeEach(module('angularCodingChallengeApp'));
 
-  var MainCtrl,
-      scope,
-      $httpBackend;
+  var MainCtrl;
+  var scope;
+  var $httpBackend;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function (_$httpBackend_, $controller, $rootScope) {
@@ -209,6 +209,74 @@ describe('Controller: MainCtrl', function () {
 
         expect(scope.currentPage).toBe(0);
       });
+    });
+  });
+
+  describe('userValid', function () {
+    describe('uniqueEmail', function () {
+      it('should return false when the email is non unique', function () {
+        scope.users = [{ email: 'email' }, { email: 'email' }];
+        expect(scope.uniqueEmail('email')).toBe(false);
+      });
+      it('should return true when the email is unique', function () {
+        scope.users = [{ email: 'email' }];
+        expect(scope.uniqueEmail('email')).toBe(true);
+      });
+    });
+
+    it('should return true if a user has a firstName, lastName, and email', function () {
+      expect(scope.userValid({ firstName: 'hi', lastName: 'bye', email: 'email' })).toBe(true);
+    });
+
+    it('should return false if any of the required fields is empty', function () {
+      expect(scope.userValid({ firstName: '', lastName: 'bye', email: 'email' })).toBe(false);
+      expect(scope.userValid({ firstName: 'hi', lastName: '', email: 'email' })).toBe(false);
+      expect(scope.userValid({ firstName: 'hi', lastName: 'bye', email: '' })).toBe(false);
+      expect(scope.userValid({})).toBe(false);
+    });
+
+    it('should return false if the email is non unique', function () {
+      scope.users = [{ email: 'email' }, { email: 'email' }];
+      expect(scope.userValid({ firstName: 'hi', lastName: 'bye', email: 'email' })).toBe(false);
+    });
+  });
+
+  describe('saveUser', function () {
+    var mockEvent;
+
+    beforeEach(function () {
+      mockEvent = { stopImmediatePropagation: function () {} };
+    });
+
+    afterEach(function () {
+      $httpBackend.verifyNoOutstandingRequest();
+      $httpBackend.verifyNoOutstandingExpectation();
+    });
+
+    it('should not save the user if it is not being edited', function () {
+      var user = { firstName: 'hi', lastName: 'bye', email: 'email' };
+
+      scope.saveUser(user, mockEvent);
+    });
+
+    it('should not save the user if it is not valid', function () {
+      var user = { firstName: 'hi', lastName: 'bye', email: '' };
+
+      scope.saveUser(user, mockEvent);
+    });
+
+    it('should create a user if it has no _id', function () {
+      var user = { firstName: 'hi', lastName: 'bye', email: 'email', editing: true };
+      $httpBackend.expectPOST('/api/users').respond(201, '');
+
+      scope.saveUser(user, mockEvent);
+    });
+
+    it('should edit a user if it has an _id', function () {
+      var user = { firstName: 'hi', lastName: 'bye', email: 'email', editing: true, _id: '12345' };
+      $httpBackend.expectPUT('/api/users/12345').respond(200, '');
+
+      scope.saveUser(user, mockEvent);
     });
   });
 });
