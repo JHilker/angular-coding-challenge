@@ -1,15 +1,34 @@
-<div ng-include="'components/navbar/navbar.html'"></div>
-
 <div class="container">
   <div class="row">
     <div class="col-lg-12">
-      <h1 class="page-header">User list:</h1>
+      <h1 class="page-header">User list</h1>
+
+      <div>
+        <input type="text" class="form-control search" placeholder="Search" ng-model="search" ng-change="search()"/>
+      </div>
+      <div class="actionsRow">
+        <span class="pageSpan">
+          <span ng-if="currentPage > 0" ng-click="previousPage()">
+            <a><i class="fa fa-angle-double-left"></i> Previous {{perPage}} users</a>
+            <span>| </span>
+          </span>
+          <span>Showing {{visiblePageRange()}} of {{users.length}} users</span>
+          <span ng-if="users.length > currentPage * perPage + 10" ng-click="nextPage()">
+            <span>| </span>
+            <a>Next {{perPage}} users <i class="fa fa-angle-double-right"></i></a>
+          </span>
+        </span>
+
+        <button class="addUserButton btn btn-default" type="submit" data-ng-click="addUserRow()">
+          <span><i class="fa fa-plus"></i> Add User</span>
+        </button>
+      </div>
       <table class="table table-striped">
         <thead>
           <tr>
-            <th>Last Name</th>
-            <th>First Name</th>
-            <th>Age</th>
+            <th ng-click="sortUsers('lastName')">Last Name</th>
+            <th ng-click="sortUsers('firstName')">First Name</th>
+            <th ng-click="sortUsers('age')" class="ageColumn">Age</th>
             <th>Email</th>
             <th>Created on</th>
             <th>Last edited</th>
@@ -18,29 +37,58 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="user in users">
-            <th>{{user.lastName}}</th>
-            <th>{{user.firstName}}</th>
-            <th>{{user.age}}</th>
-            <th>{{user.email}}</th>
-            <th>
-              <span class="userDate">
+          <tr ng-repeat="user in visibleUsers()">
+            <td>
+              <span ng-hide="user.editing">{{user.lastName}}</span>
+              <input type="text" ng-show="user.editing" ng-model="user.lastName" class="form-control"
+                     placeholder="Enter a last name" ng-required />
+            </td>
+            <td>
+              <span data-ng-hide="user.editing">{{user.firstName}}</span>
+              <input type="text" data-ng-show="user.editing" data-ng-model="user.firstName" class="form-control"
+                     placeholder="Enter a first name" data-ng-required />
+            </td>
+            <td>
+              <span data-ng-hide="user.editing">{{user.age}}</span>
+              <input type="text" data-ng-show="user.editing" data-ng-model="user.age" class="form-control"
+                     placeholder="Age" />
+            </td>
+            <td>
+              <span data-ng-hide="user.editing">{{user.email}}</span>
+              <input type="text" data-ng-show="user.editing" data-ng-model="user.email" class="form-control"
+                     placeholder="email@yourdomain.com" data-ng-required />
+            </td>
+            <td>
+              <div class="userDate">
                 {{user.createdOn | amDateFormat: 'MM/DD/YYYY'}}
-              </span>
-              <span class="userTime">
+              </div>
+              <div class="userTime">
                 {{user.createdOn | amDateFormat: 'hh:mm:ss A'}}
-              </span>
-            </th>
-            <th>
-              <span class="userDate">
+              </div>
+            </td>
+            <td>
+              <div class="userDate">
                 {{user.lastEdited | amDateFormat: 'MM/DD/YYYY'}}
-              </span>
-              <span class="userTime">
+              </div>
+              <div class="userTime">
                 {{user.lastEdited | amDateFormat: 'hh:mm:ss A'}}
-              </span>
-            </th>
-            <th><i class="fa fa-check" ng-if="user.active"></i></th>
-            <th></th>
+              </div>
+            </td>
+            <td>
+              <i class="fa fa-check" ng-if="user.active" data-ng-hide="user.editing"></i>
+              <input type="checkbox" data-ng-show="user.editing" data-ng-model="user.active" />
+            </td>
+            <td>
+              <button type="submit" ng-hide="user.editing" ng-click="editUser(user)" class="btn btn-default">
+                <i class="fa fa-pencil"></i>
+              </button>
+              <button type="submit" data-ng-show="user.editing" data-ng-click="cancel(user)" class="btn btn-default undo">
+                <i class="fa fa-undo"></i>
+              </button>
+              <button type="submit" data-ng-show="user.editing" data-ng-click="saveUser(user)" class="btn btn-default save">
+                <i class="fa fa-check"></i>
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>

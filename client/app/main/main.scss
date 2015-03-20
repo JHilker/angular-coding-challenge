@@ -1,30 +1,66 @@
 .thing-form {
-    margin: 20px 0;
+  margin: 20px 0;
 }
 
 #banner {
-    border-bottom: none;
-    margin-top: -20px;
+  border-bottom: none;
+  margin-top: -20px;
 }
 
 #banner h1 {
-    font-size: 60px;
-    line-height: 1;
-    letter-spacing: -1px;
+  font-size: 60px;
+  line-height: 1;
+  letter-spacing: -1px;
 }
 
-.hero-unit {
-    position: relative;
-    padding: 30px 15px;
-    color: #F5F5F5;
-    text-align: center;
-    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
-    background: #4393B9;
+.search {
+  max-width: 300px;
+}
+
+.addUserButton {
+  float: right;
+
+  i {
+    color: green;
+  }
+}
+
+.actionsRow {
+  margin-left: 5px;
+  margin-top: 5px;
+}
+
+.pageSpan {
+  a {
+    cursor: pointer;
+  }
+
+  a:hover {
+    text-decoration: none;
+  }
+}
+
+.userTime {
+  color: gray;
+}
+
+.ageColumn {
+  width: 75px;
+}
+
+button {
+  &.save, &.save:hover {
+    color: green;
+  }
+
+  &.undo, &.undo:hover {
+    color: red;
+  }
 }
 
 .footer {
-    text-align: center;
-    padding: 30px 0;
-    margin-top: 70px;
-    border-top: 1px solid #E5E5E5;
+  text-align: center;
+  padding: 30px 0;
+  margin-top: 70px;
+  border-top: 1px solid #E5E5E5;
 }
