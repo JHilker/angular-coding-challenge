@@ -17,24 +17,6 @@ angular.module('angularCodingChallengeApp')
       $scope.users = users;
     });
 
-    $scope.editUser = function (user) {
-      $scope.cachedUsers[$scope.users.indexOf(user)] = angular.copy(user);
-      user.editing = true;
-    };
-
-    $scope.cancel = function (user) {
-      var index = $scope.users.indexOf(user);
-      if (user._id) {
-        $scope.users[index] = $scope.cachedUsers[index];
-      } else {
-        $scope.users.splice(index, 1);
-      }
-    };
-
-    $scope.addUserRow = function () {
-      $scope.users.unshift({ editing: true });
-    };
-
     $scope.sortUsers = function (field) {
       if ($scope.sortField === field) {
         $scope.sortOrder = !$scope.sortOrder;
@@ -42,33 +24,6 @@ angular.module('angularCodingChallengeApp')
         $scope.sortField = field;
         $scope.sortOrder = true;
       }
-    };
-
-
-    $scope.saveUser = function (user) {
-      if (user.editing !== false) {
-        user.lastEdited = moment();
-        if (user._id) {
-          $http.put('/api/users/' + user._id, user);
-        } else {
-          user.createdOn = user.lastEdited;
-          $http.post('/api/users', user);
-        }
-
-        user.editing = false;
-      }
-    };
-
-    $scope.addUser = function () {
-      if($scope.newUser === '') {
-        return;
-      }
-      $http.post('/api/users', { name: $scope.newUser });
-      $scope.newUser = '';
-    };
-
-    $scope.deleteUser = function (user) {
-      $http.delete('/api/users/' + user._id);
     };
 
     $scope.sortedUsers = function () {
@@ -86,11 +41,47 @@ angular.module('angularCodingChallengeApp')
       return firstUser + '-' + lastUser;
     };
 
+    $scope.nextPage = function () {
+      $scope.currentPage += 1;
+    };
+
     $scope.previousPage = function () {
       $scope.currentPage -= 1;
     };
 
-    $scope.nextPage = function () {
-      $scope.currentPage += 1;
+    $scope.addUserRow = function () {
+      $scope.users.unshift({ editing: true });
+    };
+
+    $scope.editUser = function (user) {
+      $scope.cachedUsers[$scope.users.indexOf(user)] = angular.copy(user);
+      user.editing = true;
+    };
+
+    $scope.cancel = function (user) {
+      var index = $scope.users.indexOf(user);
+      if (user._id) {
+        $scope.users[index] = $scope.cachedUsers[index];
+      } else {
+        $scope.users.splice(index, 1);
+      }
+    };
+
+    $scope.saveUser = function (user) {
+      if (user.editing !== false) {
+        user.lastEdited = moment();
+        if (user._id) {
+          $http.put('/api/users/' + user._id, user);
+        } else {
+          user.createdOn = user.lastEdited;
+          $http.post('/api/users', user);
+        }
+
+        user.editing = false;
+      }
+    };
+
+    $scope.deleteUser = function (user) {
+      $http.delete('/api/users/' + user._id);
     };
   });
